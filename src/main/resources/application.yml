@@ -1,4 +1,7 @@
 spring:
+  application:
+    name: mobidoc-server
+    
   datasource:
     url: jdbc:postgresql://localhost:5432/mobidoc
     username: postgres
@@ -26,21 +29,24 @@ spring:
     baseline-on-migrate: true
     locations: classpath:db/migration
 
-server:
-  port: 8080
-  servlet:
-    context-path: /api/v1
-
 keycloak:
   realm: mobidoc
   auth-server-url: http://localhost:8180
   ssl-required: external
   resource: mobidoc-server
-  bearer-only: true
+  credentials:
+    secret: your-client-secret-here
   use-resource-role-mappings: true
+  bearer-only: true
   principal-attribute: preferred_username
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
 
 logging:
   level:
     ci.mobidoc: DEBUG
     org.springframework.security: INFO
+    org.keycloak: DEBUG
